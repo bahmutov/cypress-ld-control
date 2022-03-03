@@ -50,7 +50,7 @@ async function scenario1() {
   const feature = await ldApi.getFeatureFlag(featureFlagKey)
   console.dir(feature.environments.dev.targets, { depth: null })
 }
-scenario1()
+// scenario1()
 
 // ldApi.removeTarget({
 //   featureFlagKey,
@@ -64,3 +64,9 @@ scenario1()
 //   userId: '2002',
 //   variationIndex: 2,
 // })
+
+ldApi.setFeatureFlagForUser({
+  featureFlagKey,
+  userId: '156090742',
+  variationIndex: 2,
+})

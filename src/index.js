@@ -78,6 +78,13 @@ function initLaunchDarklyApiClient(options = {}) {
   }
 
   async function removeUserTarget({ featureFlagKey, userId }) {
+    if (typeof featureFlagKey !== 'string') {
+      throw new Error('featureFlagKey must be a string')
+    }
+    if (typeof userId !== 'string') {
+      throw new Error('userId must be a string')
+    }
+
     const featureFlag = await getFeatureFlag(featureFlagKey)
     const targets = featureFlag.environments[env].targets
     const existingUserTargetIndex = targets.findIndex((target) =>
@@ -139,6 +146,9 @@ function initLaunchDarklyApiClient(options = {}) {
     }
     if (!userId) {
       throw new Error('userId is required')
+    }
+    if (typeof userId !== 'string') {
+      throw new Error('userId must be a string')
     }
     if (isNaN(variationIndex) || variationIndex < 0) {
       throw new Error('variationIndex is required')
