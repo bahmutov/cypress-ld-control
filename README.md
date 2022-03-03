@@ -13,16 +13,52 @@ $ npm i -D cypress-ld-control
 $ yarn add -D cypress-ld-control
 ```
 
-Add the plugin to your Cypress plugins file. You might want to check if the environment variables `and` are set
+## API
+
+This plugin provides the following functions
+
+### getFeatureFlags
+
+### getFeatureFlag
+
+### setFeatureFlagForUser
+
+### removeTarget
+
+### removeUserTarget
+
+## Use without Cypress
+
+You can use this plugin by itself to control LaunchDarkly flags
+
+```js
+// https://github.com/bahmutov/cypress-ld-control
+const { initLaunchDarklyApiClient } = require('cypress-ld-control')
+const ldApi = initLaunchDarklyApiClient({
+  projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
+  authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
+  environment: 'dev', // the name of your environment to use
+})
+const flag = await ldApi.getFeatureFlag('my-flag-key')
+await ldApi.setFeatureFlagForUser({
+  featureFlagKey: 'my-flag-key',
+  userId: '1234567',
+  variationIndex: 0, // index of the variant to use
+})
+```
+
+See [demo/index.js](./demo/index.js)
+
+## Use from Cypress
+
+Add the plugin to your Cypress plugins file by grabbing an object with tasks.
+
+**Tip:** you might want to check if the environment variables `and` are set and only initialize the tasks in that case.
 
 ```js
 // cypress/plugins/index.js
-const { initLaunchDarklyApiClient } = require('cypress-ld-control')
+const { initLaunchDarklyApiTasks } = require('cypress-ld-control')
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-  // TODO init LaunchDarkly API client and mock network calls to test it
-
   const tasks = {
     // add your other Cypress tasks if any
   }
@@ -32,13 +68,13 @@ module.exports = (on, config) => {
     process.env.LAUNCH_DARKLY_PROJECT_KEY &&
     process.env.LAUNCH_DARKLY_AUTH_TOKEN
   ) {
-    const ldApi = initLaunchDarklyApiClient({
+    const ldApiTasks = initLaunchDarklyApiTasks({
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
       environment: 'dev', // the name of your environment to use
     })
     // copy all LaunchDarkly methods as individual tasks
-    Object.assign(tasks, ldApi)
+    Object.assign(tasks, ldApiTasks)
   } else {
     console.log('Skipping cypress-ld-control plugin')
   }
@@ -49,6 +85,13 @@ module.exports = (on, config) => {
   // IMPORTANT: return the updated config object
   return config
 }
+```
+
+Each method from the API (see above) has a matching task prefixed with `cypress-ld-control:` string. For example, to see a particular flag from your spec call:
+
+```js
+// you Cypress spec file
+cy.task('cypress-ld-control:getFeatureFlag', 'my-flag-key').then(flag => ...)
 ```
 
 ## Small print

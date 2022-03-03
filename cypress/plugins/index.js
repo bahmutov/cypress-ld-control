@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const { initLaunchDarklyApiClient } = require('../../src')
+const { initLaunchDarklyApiTasks } = require('../../src')
 
 /**
  * @type {Cypress.PluginConfig}
@@ -19,13 +19,13 @@ module.exports = (on, config) => {
     process.env.LAUNCH_DARKLY_PROJECT_KEY &&
     process.env.LAUNCH_DARKLY_AUTH_TOKEN
   ) {
-    const ldApi = initLaunchDarklyApiClient({
+    const ldApiTasks = initLaunchDarklyApiTasks({
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
       environment: 'dev', // the name of your environment to use
     })
     // copy all LaunchDarkly methods as individual tasks
-    Object.assign(tasks, ldApi)
+    Object.assign(tasks, ldApiTasks)
   } else {
     console.log('Skipping cypress-ld-control plugin')
   }

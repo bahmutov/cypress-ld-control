@@ -229,4 +229,21 @@ function initLaunchDarklyApiClient(options = {}) {
   return ldApi
 }
 
-module.exports = { initLaunchDarklyApiClient }
+function initLaunchDarklyApiTasks(options) {
+  const ldApi = initLaunchDarklyApiClient(options)
+  if (!ldApi) {
+    throw new Error('failed to init LaunchDarkly API client')
+  }
+
+  const tasks = {}
+  const namespace = 'cypress-ld-control'
+
+  Object.keys(ldApi).forEach((key) => {
+    const taskName = `${namespace}:${key}`
+    tasks[taskName] = ldApi[key]
+  })
+
+  return tasks
+}
+
+module.exports = { initLaunchDarklyApiClient, initLaunchDarklyApiTasks }
