@@ -39,6 +39,8 @@ function initLaunchDarklyApiClient(options = {}) {
   }
 
   // high-level methods
+  // Note: each method should return a value or a null
+  // so it can be used as a Cypress task
   async function getFeatureFlag(featureFlagKey) {
     if (!featureFlagKey) {
       throw new Error('featureFlagKey is required')
@@ -54,6 +56,7 @@ function initLaunchDarklyApiClient(options = {}) {
     const response = await ldRestApi.get()
     const json = JSON.parse(response.body)
     console.dir(json, { depth: null })
+    return json
   }
 
   async function removeTarget({ featureFlagKey, targetIndex }) {
@@ -71,6 +74,7 @@ function initLaunchDarklyApiClient(options = {}) {
     await ldRestApi.patch(featureFlagKey, {
       body: JSON.stringify([removePatch]),
     })
+    return null
   }
 
   async function removeUserTarget({ featureFlagKey, userId }) {
@@ -81,7 +85,7 @@ function initLaunchDarklyApiClient(options = {}) {
     )
     if (existingUserTargetIndex === -1) {
       // nothing to remove
-      return
+      return null
     }
 
     const existingUserTarget = targets[existingUserTargetIndex]
@@ -216,6 +220,7 @@ function initLaunchDarklyApiClient(options = {}) {
       userId,
       featureFlagKey,
     )
+    return null
   }
 
   const ldApi = {
