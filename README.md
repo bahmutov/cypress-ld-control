@@ -1,4 +1,4 @@
-# cypress-ld-control
+# cypress-ld-control ![cypress version](https://img.shields.io/badge/cypress-9.5.1-brightgreen)
 
 > Set LaunchDarkly feature flags from Cypress tests
 

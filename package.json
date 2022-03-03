@@ -1,6 +1,6 @@
 {
   "name": "cypress-ld-control",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "Set LaunchDarkly feature flags from Cypress tests",
   "private": false,
   "main": "src/index.js",
@@ -8,7 +8,8 @@
     "src"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "cypress-plugin",
@@ -17,10 +18,16 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "cypress": "^9.5.1",
+    "prettier": "^2.5.1",
+    "semantic-release": "^19.0.2"
   },
   "dependencies": {
     "debug": "^4.3.3",
     "got": "^11.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bahmutov/cypress-ld-control.git"
   }
 }
