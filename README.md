@@ -19,13 +19,54 @@ This plugin provides the following functions
 
 ### getFeatureFlags
 
+Returns all feature flags. Warning: could be a lot of flags!
+
+```js
+const flags = await ldApi.getFeatureFlags()
+// flags is an array of objects
+```
+
 ### getFeatureFlag
+
+Returns a large object with everything there is two know about the feature flag in a particular environment
+
+```js
+const flag = ldApi.getFeatureFlag('my-feature-flag')
+```
 
 ### setFeatureFlagForUser
 
+**Important:** the feature flag must have "Targeting: on" for user-level targeting to work.
+
+```js
+await ldApi.setFeatureFlagForUser({
+  featureFlagKey: 'my-flag-key',
+  userId: 'string user id',
+  variationIndex: 1, // must be index to one of the variations
+})
+```
+
 ### removeTarget
 
+Removes the specified target object
+
+```js
+await ldApi.removeTarget({
+  featureFlagKey: 'my-flag-key',
+  targetIndex: 0,
+})
+```
+
 ### removeUserTarget
+
+Removes the given user from any variation targeting lists for the given feature
+
+```js
+await ldApi.removeTarget({
+  featureFlagKey: 'my-flag-key',
+  userId: 'user string id',
+})
+```
 
 ## Use without Cypress
 
@@ -90,8 +131,15 @@ module.exports = (on, config) => {
 Each method from the API (see above) has a matching task prefixed with `cypress-ld-control:` string. For example, to see a particular flag from your spec call:
 
 ```js
-// you Cypress spec file
-cy.task('cypress-ld-control:getFeatureFlag', 'my-flag-key').then(flag => ...)
+// in your Cypress spec file
+// let's find everything about a feature flag
+cy.task('cypress-ld-control:getFeatureFlag', 'my-flag-key').then(flag => {...})
+// let's set the feature variation for a user
+cy.task('cypress-ld-control:setFeatureFlagForUser', {
+  featureFlagKey: 'my-flag-key',
+  userId: 'string user id',
+  variationIndex: 1 // must be index to one of the variations
+})
 ```
 
 ## Small print

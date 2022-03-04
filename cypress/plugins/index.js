@@ -22,7 +22,7 @@ module.exports = (on, config) => {
     const ldApiTasks = initLaunchDarklyApiTasks({
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
-      environment: 'dev', // the name of your environment to use
+      environment: 'test', // the name of your environment to use
     })
     // copy all LaunchDarkly methods as individual tasks
     Object.assign(tasks, ldApiTasks)
