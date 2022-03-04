@@ -3,7 +3,7 @@ const { initLaunchDarklyApiClient } = require('..')
 const ldApi = initLaunchDarklyApiClient({
   projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
   authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
-  environment: 'dev',
+  environment: 'test',
 })
 // ldApi.getFeatureFlag('web-cvv-verification-phase1')
 // ldApi.getFeatureFlags()

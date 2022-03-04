@@ -2,6 +2,8 @@
 
 > Set LaunchDarkly feature flags from Cypress tests
 
+Read the blog post [Control LaunchDarkly From Cypress Tests](https://glebbahmutov.com/blog/cypress-and-launchdarkly/).
+
 ## Install
 
 Add this plugin as a dev dependency
@@ -62,7 +64,7 @@ await ldApi.removeTarget({
 Removes the given user from any variation targeting lists for the given feature
 
 ```js
-await ldApi.removeTarget({
+await ldApi.removeUserTarget({
   featureFlagKey: 'my-flag-key',
   userId: 'user string id',
 })
@@ -78,7 +80,7 @@ const { initLaunchDarklyApiClient } = require('cypress-ld-control')
 const ldApi = initLaunchDarklyApiClient({
   projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
   authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
-  environment: 'dev', // the name of your environment to use
+  environment: 'test', // the key of the environment to use
 })
 const flag = await ldApi.getFeatureFlag('my-flag-key')
 await ldApi.setFeatureFlagForUser({
@@ -112,7 +114,7 @@ module.exports = (on, config) => {
     const ldApiTasks = initLaunchDarklyApiTasks({
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
-      environment: 'dev', // the name of your environment to use
+      environment: 'test', // the key of the environment to use
     })
     // copy all LaunchDarkly methods as individual tasks
     Object.assign(tasks, ldApiTasks)
@@ -141,6 +143,10 @@ cy.task('cypress-ld-control:setFeatureFlagForUser', {
   variationIndex: 1 // must be index to one of the variations
 })
 ```
+
+## Examples
+
+- application [bahmutov/cypress-ld-control-example](https://github.com/bahmutov/cypress-ld-control-example)
 
 ## Small print
 
