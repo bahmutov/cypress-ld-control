@@ -27,7 +27,7 @@ function initLaunchDarklyApiClient(options = {}) {
     retry: {
       // LaunchDarkly API has rate limits, thus we want to retry the requests
       // https://apidocs.launchdarkly.com/#section/Overview/Rate-limiting
-      limit: 3,
+      limit: 10,
       methods: ['GET', 'PATCH'],
       statusCodes: [429],
     },
