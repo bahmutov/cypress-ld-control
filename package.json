@@ -5,7 +5,8 @@
   "private": false,
   "main": "src/index.js",
   "files": [
-    "src"
+    "src",
+    "commands.js"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

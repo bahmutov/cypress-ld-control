@@ -96,6 +96,34 @@ See [demo/index.js](./demo/index.js)
 
 Add the plugin to your Cypress plugins file by grabbing an object with tasks.
 
+### initCypress
+
+From your Cypress config file (v10+) or from your plugins file, call the `initCypress` function.
+
+```js
+// cypress.config.js
+const { initCypress } = require('cypress-ld-control')
+setupNodeEvents(on, config) {
+  initCypress(on, config)
+  // IMPORTANT: return the updated config object
+  return config
+}
+```
+
+### Commands
+
+From the spec or browser support file you can import the `cypress-ld-control/commands` module to add utility commands
+
+#### isLaunchDarklyControlInitialized
+
+```js
+if (Cypress.isLaunchDarklyControlInitialized()) {
+  // we can control the LaunchDarkly flags
+}
+```
+
+### Explicit registration (old)
+
 **Tip:** you might want to check if the environment variables `and` are set and only initialize the tasks in that case.
 
 ```js
