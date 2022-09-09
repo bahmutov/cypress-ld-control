@@ -176,6 +176,10 @@ cy.task('cypress-ld-control:setFeatureFlagForUser', {
 
 - application [bahmutov/cypress-ld-control-example](https://github.com/bahmutov/cypress-ld-control-example)
 
+## Types
+
+In [src/index.d.ts](./src/index.d.ts) file
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2022

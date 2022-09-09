@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+// @ts-check
+
 import '../../commands'
 
 describe('Cypress LaunchDarkly control', () => {

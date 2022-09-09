@@ -4,6 +4,7 @@
   "description": "Set LaunchDarkly feature flags from Cypress tests",
   "private": false,
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "files": [
     "src",
     "commands.js"
