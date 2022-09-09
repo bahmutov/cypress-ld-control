@@ -1,13 +1,6 @@
-/// <reference types="cypress" />
+import * as globals from './globals'
 
-declare namespace Cypress {
-  interface Cypress {
-    /**
-     * Returns true if the plugins or config file (in Node)
-     * has LaunchDarkly API key and project and has configured
-     * the LD client.
-     * @example if (Cypress.isLaunchDarklyControlInitialized()) { ... }
-     */
-    isLaunchDarklyControlInitialized(): boolean
-  }
-}
+export function initCypress(
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfig,
+): Cypress.PluginConfig

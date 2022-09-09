@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+/// <reference path="../../src/globals.d.ts" />
 // @ts-check
 
 import '../../commands'
