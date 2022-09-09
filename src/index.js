@@ -261,4 +261,37 @@ function initLaunchDarklyApiTasks(options) {
   return tasks
 }
 
-module.exports = { initLaunchDarklyApiClient, initLaunchDarklyApiTasks }
+function initCypress(on, config) {
+  if (
+    process.env.LAUNCH_DARKLY_PROJECT_KEY &&
+    process.env.LAUNCH_DARKLY_AUTH_TOKEN
+  ) {
+    console.log('cypress-ld-control: initializing LD client')
+    const options = {
+      projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
+      authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
+      environment: 'test', // the name of your environment to use
+    }
+    const ldApiTasks = initLaunchDarklyApiTasks(options)
+    if (!ldApiTasks) {
+      throw new Error('failed to init LaunchDarkly tasks')
+    }
+
+    // register all tasks with Cypress
+    on('task', ldApiTasks)
+
+    // set the flag in the Cypress.env object to let the specs know
+    config.env.haveLaunchDarklyApi = true
+  } else {
+    console.log('Skipping cypress-ld-control plugin')
+    config.env.haveLaunchDarklyApi = false
+  }
+
+  return config
+}
+
+module.exports = {
+  initLaunchDarklyApiClient,
+  initLaunchDarklyApiTasks,
+  initCypress,
+}

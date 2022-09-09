@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
+import '../../commands'
 
 describe('Cypress LaunchDarkly control', () => {
-  if (Cypress.env('haveLaunchDarklyApi')) {
+  if (Cypress.isLaunchDarklyControlInitialized()) {
     const featureFlagKey = 'testing-launch-darkly-control-from-cypress'
 
     it('fetches the feature flag')
