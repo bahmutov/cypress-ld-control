@@ -1,4 +1,6 @@
-import * as globals from './globals'
+/// <reference types="cypress" />
+
+import './globals'
 
 export function initCypress(
   on: Cypress.PluginEvents,
