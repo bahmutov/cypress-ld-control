@@ -122,6 +122,8 @@ if (Cypress.isLaunchDarklyControlInitialized()) {
 }
 ```
 
+Reads the environment variables `LAUNCH_DARKLY_PROJECT_KEY` and `LAUNCH_DARKLY_AUTH_TOKEN` to initialize the LD client. Assumes the LD environment name is "test".
+
 ### Explicit registration (old)
 
 **Tip:** you might want to check if the environment variables `and` are set and only initialize the tasks in that case.
