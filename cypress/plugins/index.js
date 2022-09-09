@@ -19,6 +19,7 @@ module.exports = (on, config) => {
     process.env.LAUNCH_DARKLY_PROJECT_KEY &&
     process.env.LAUNCH_DARKLY_AUTH_TOKEN
   ) {
+    console.log('cypress-ld-control: initializing LD client')
     const ldApiTasks = initLaunchDarklyApiTasks({
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
@@ -26,8 +27,12 @@ module.exports = (on, config) => {
     })
     // copy all LaunchDarkly methods as individual tasks
     Object.assign(tasks, ldApiTasks)
+
+    // set the flag in the Cypress.env object to let the specs know
+    config.env.haveLaunchDarklyApi = true
   } else {
     console.log('Skipping cypress-ld-control plugin')
+    config.env.haveLaunchDarklyApi = false
   }
 
   // register all tasks with Cypress
