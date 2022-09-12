@@ -14,5 +14,14 @@ declare namespace Cypress {
      * Returns information about the given feature flag
      */
     getFeatureFlag(featureFlagKey: string): Chainable<any>
+
+    /**
+     * Sets the feature flag value for the given user.
+     */
+    setFeatureFlagForUser(
+      featureFlagKey: string,
+      userId: string,
+      variationIndex: number,
+    ): Chainable<any>
   }
 }

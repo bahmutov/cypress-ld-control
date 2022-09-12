@@ -63,6 +63,14 @@ if (Cypress.isLaunchDarklyControlInitialized()) {
 cy.getFeatureFlag(featureFlagKey).then(flag => ...)
 ```
 
+### setFeatureFlagForUser
+
+```js
+cy.setFeatureFlagForUser(featureFlagKey, userId, variationIndex)
+```
+
+## Plugin Node API
+
 This plugin provides the following functions
 
 ### getFeatureFlags

@@ -12,4 +12,17 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
       .then(JSON.stringify)
       .then(cy.log)
   })
+
+  Cypress.Commands.add(
+    'setFeatureFlagForUser',
+    (featureFlagKey, userId, variationIndex) => {
+      return cy.task(
+        'cypress-ld-control:setFeatureFlagForUser',
+        { featureFlagKey, userId, variationIndex },
+        {
+          log: false,
+        },
+      )
+    },
+  )
 }
