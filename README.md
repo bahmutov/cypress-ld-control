@@ -15,7 +15,45 @@ $ npm i -D cypress-ld-control
 $ yarn add -D cypress-ld-control
 ```
 
+Most common use case: using this plugin from Cypress
+
+Add the plugin to your Node-side plugins or config file
+
+```js
+// cypress.config.js
+// https://github.com/bahmutov/cypress-ld-control
+const { initCypress } = require('cypress-ld-control')
+...
+e2e: {
+  setupNodeEvents(on, config) {
+    initCypress(on, config)
+    // IMPORTANT: return the updated config object
+    return config
+  },
+}
+```
+
+If you want custom `cy` commands to fetch or control the feature flags, include the plugin's commands file from your support file or from your spec file:
+
+```js
+// your support or spec file
+// https://github.com/bahmutov/cypress-ld-control
+import 'cypress-ld-control/commands'
+```
+
 ## API
+
+### Commands
+
+From the spec or browser support file you can import the `cypress-ld-control/commands` module to add utility commands
+
+#### isLaunchDarklyControlInitialized
+
+```js
+if (Cypress.isLaunchDarklyControlInitialized()) {
+  // we can control the LaunchDarkly flags
+}
+```
 
 This plugin provides the following functions
 
@@ -110,18 +148,6 @@ setupNodeEvents(on, config) {
 }
 ```
 
-### Commands
-
-From the spec or browser support file you can import the `cypress-ld-control/commands` module to add utility commands
-
-#### isLaunchDarklyControlInitialized
-
-```js
-if (Cypress.isLaunchDarklyControlInitialized()) {
-  // we can control the LaunchDarkly flags
-}
-```
-
 Reads the environment variables `LAUNCH_DARKLY_PROJECT_KEY` and `LAUNCH_DARKLY_AUTH_TOKEN` to initialize the LD client. Assumes the LD environment name is "test".
 
 ### Explicit registration (old)
@@ -180,7 +206,7 @@ cy.task('cypress-ld-control:setFeatureFlagForUser', {
 
 ## Types
 
-In [src/index.d.ts](./src/index.d.ts) file
+In [src/index.d.ts](./src/index.d.ts) file and [src/globals.d.ts](./src/globals.d.ts)
 
 ## Small print
 
