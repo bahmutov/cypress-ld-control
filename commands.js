@@ -5,12 +5,9 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
     }
 
   Cypress.Commands.add('getFeatureFlag', (featureFlagKey) => {
-    return cy
-      .task('cypress-ld-control:getFeatureFlag', featureFlagKey, {
-        log: false,
-      })
-      .then(JSON.stringify)
-      .then(cy.log)
+    return cy.task('cypress-ld-control:getFeatureFlag', featureFlagKey, {
+      log: false,
+    })
   })
 
   Cypress.Commands.add(
