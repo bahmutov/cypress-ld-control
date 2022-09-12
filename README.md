@@ -49,10 +49,18 @@ From the spec or browser support file you can import the `cypress-ld-control/com
 
 #### isLaunchDarklyControlInitialized
 
+Static, chained off `Cypress`
+
 ```js
 if (Cypress.isLaunchDarklyControlInitialized()) {
   // we can control the LaunchDarkly flags
 }
+```
+
+### getFeatureFlag
+
+```js
+cy.getFeatureFlag(featureFlagKey).then(flag => ...)
 ```
 
 This plugin provides the following functions

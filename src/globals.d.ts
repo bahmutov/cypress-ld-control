@@ -8,4 +8,11 @@ declare namespace Cypress {
      */
     isLaunchDarklyControlInitialized(): boolean
   }
+
+  interface Chainable {
+    /**
+     * Returns information about the given feature flag
+     */
+    getFeatureFlag(featureFlagKey: string): Chainable<any>
+  }
 }

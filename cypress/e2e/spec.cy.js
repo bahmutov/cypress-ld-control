@@ -7,7 +7,9 @@ describe('Cypress LaunchDarkly control', () => {
   if (Cypress.isLaunchDarklyControlInitialized()) {
     const featureFlagKey = 'testing-launch-darkly-control-from-cypress'
 
-    it('fetches the feature flag')
+    it('fetches the feature flag', () => {
+      cy.getFeatureFlag(featureFlagKey)
+    })
 
     it('sets the flag for a user')
 
