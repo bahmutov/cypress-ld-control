@@ -69,6 +69,12 @@ cy.getFeatureFlag(featureFlagKey).then(flag => ...)
 cy.setFeatureFlagForUser(featureFlagKey, userId, variationIndex)
 ```
 
+### removeUserTarget
+
+```js
+cy.removeUserTarget(featureFlagKey, userId)
+```
+
 ## Plugin Node API
 
 This plugin provides the following functions
