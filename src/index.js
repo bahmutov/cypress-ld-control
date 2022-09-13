@@ -52,10 +52,16 @@ function initLaunchDarklyApiClient(options = {}) {
       // console.dir(json, { depth: null })
       return json
     } catch (e) {
-      console.error('Error fetching feature flag %s', featureFlagKey)
+      console.error(
+        'Error fetching feature flag %s in LD environment "%s"',
+        featureFlagKey,
+        env,
+      )
       console.error(e.message)
       if (e.message.includes('404')) {
-        throw new Error(`Could not find feature flag ${featureFlagKey}`)
+        throw new Error(
+          `Could not find feature flag ${featureFlagKey} in environment "${env}"`,
+        )
       }
       throw e
     }
