@@ -283,7 +283,7 @@ function initCypress(on, config) {
   ) {
     // the name of your environment to use
     const environment =
-      'LAUNCH_DARKLY_ENVIRONMENT' in process.env.LAUNCH_DARKLY_ENVIRONMENT &&
+      'LAUNCH_DARKLY_ENVIRONMENT' in process.env &&
       process.env.LAUNCH_DARKLY_ENVIRONMENT
         ? process.env.LAUNCH_DARKLY_ENVIRONMENT
         : 'test'
