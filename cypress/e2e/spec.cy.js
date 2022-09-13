@@ -14,6 +14,11 @@ describe('Cypress LaunchDarkly control', () => {
     it('sets the flag for a user')
 
     it('deletes user target from the flag')
+
+    // SKIP only for showing the error message
+    it.skip('shows an error for non-existent feature flag', () => {
+      cy.getFeatureFlag('this-flag-does-not-exist')
+    })
   } else {
     it('has no LD API')
   }

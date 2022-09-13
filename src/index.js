@@ -46,10 +46,19 @@ function initLaunchDarklyApiClient(options = {}) {
       throw new Error('featureFlagKey is required')
     }
 
-    const response = await ldRestApi.get(featureFlagKey)
-    const json = JSON.parse(response.body)
-    // console.dir(json, { depth: null })
-    return json
+    try {
+      const response = await ldRestApi.get(featureFlagKey)
+      const json = JSON.parse(response.body)
+      // console.dir(json, { depth: null })
+      return json
+    } catch (e) {
+      console.error('Error fetching feature flag %s', featureFlagKey)
+      console.error(e.message)
+      if (e.message.includes('404')) {
+        throw new Error(`Could not find feature flag ${featureFlagKey}`)
+      }
+      throw e
+    }
   }
 
   async function getFeatureFlags() {
