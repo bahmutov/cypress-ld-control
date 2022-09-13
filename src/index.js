@@ -275,11 +275,20 @@ function initCypress(on, config) {
     process.env.LAUNCH_DARKLY_PROJECT_KEY &&
     process.env.LAUNCH_DARKLY_AUTH_TOKEN
   ) {
-    console.log('cypress-ld-control: initializing LD client')
+    // the name of your environment to use
+    const environment =
+      'LAUNCH_DARKLY_ENVIRONMENT' in process.env.LAUNCH_DARKLY_ENVIRONMENT &&
+      process.env.LAUNCH_DARKLY_ENVIRONMENT
+        ? process.env.LAUNCH_DARKLY_ENVIRONMENT
+        : 'test'
+    console.log(
+      'cypress-ld-control: initializing LD client for environment "%s"',
+      environment,
+    )
     const options = {
       projectKey: process.env.LAUNCH_DARKLY_PROJECT_KEY,
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
-      environment: 'test', // the name of your environment to use
+      environment,
     }
     const ldApiTasks = initLaunchDarklyApiTasks(options)
     if (!ldApiTasks) {

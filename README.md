@@ -170,7 +170,7 @@ setupNodeEvents(on, config) {
 }
 ```
 
-Reads the environment variables `LAUNCH_DARKLY_PROJECT_KEY` and `LAUNCH_DARKLY_AUTH_TOKEN` to initialize the LD client. Assumes the LD environment name is "test".
+Reads the environment variables `LAUNCH_DARKLY_PROJECT_KEY` and `LAUNCH_DARKLY_AUTH_TOKEN` to initialize the LD client. You can pass the LD environment name via `LAUNCH_DARKLY_ENVIRONMENT`, otherwise it assumes the LD environment name is "test".
 
 ### Explicit registration (old)
 
