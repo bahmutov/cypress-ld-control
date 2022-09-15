@@ -326,6 +326,20 @@ function initLaunchDarklyApiTasksMultipleProjects(projects, options) {
       }
       return ldApi.removeUserTarget({ featureFlagKey, userId })
     },
+
+    'cypress-ld-control:setFeatureFlagForUser'(options) {
+      const { projectKey } = options
+      if (!projectKey) {
+        throw new Error(
+          `Missing LD project key when setting user feature flag ${featureFlagKey}`,
+        )
+      }
+      const ldApi = ldApiClients[projectKey]
+      if (!ldApi) {
+        throw new Error(`Cannot find LD project ${projectKey}`)
+      }
+      return ldApi.setFeatureFlagForUser(options)
+    },
   }
 
   return tasks

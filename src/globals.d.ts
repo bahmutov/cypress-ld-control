@@ -24,6 +24,7 @@ declare namespace Cypress {
       featureFlagKey: string,
       userId: string,
       variationIndex: number,
+      projectKey?: string,
     ): Chainable<any>
 
     /**
