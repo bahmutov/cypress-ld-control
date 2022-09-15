@@ -3,13 +3,14 @@ const got = require('got')
 
 function initLaunchDarklyApiClient(options = {}) {
   const { projectKey, authToken, environment } = options
-
   const env = environment || 'dev'
+  debug('creating LD client for project %s environment "%s"', projectKey, env)
+
   if (!projectKey) {
-    throw new Error('LAUNCH_DARKLY_PROJECT_KEY is not set')
+    throw new Error('LaunchDarkly project key is missing')
   }
   if (!authToken) {
-    throw new Error('LAUNCH_DARKLY_AUTH_TOKEN is not set')
+    throw new Error('LaunchDarkly auth token is missing')
   }
 
   // create a new instance wrapping common options
@@ -276,6 +277,43 @@ function initLaunchDarklyApiTasks(options) {
   return tasks
 }
 
+function initLaunchDarklyApiTasksMultipleProjects(projects, options) {
+  // each LD client is stored by its name
+  const ldApiClients = {}
+
+  projects.forEach((project) => {
+    const projectKey = project.projectKey
+    if (!projectKey) {
+      throw new Error('Missing LD project key')
+    }
+
+    const projectOptions = {
+      ...options,
+      projectKey,
+      environment: project.environment || 'test',
+    }
+    const ldApi = initLaunchDarklyApiClient(projectOptions)
+    ldApiClients[projectKey] = ldApi
+  })
+
+  const tasks = {
+    'cypress-ld-control:getFeatureFlag'({ projectKey, featureFlagKey }) {
+      if (!projectKey) {
+        throw new Error(
+          `Missing LD project key when fetching the flag ${featureFlagKey}`,
+        )
+      }
+      const ldApi = ldApiClients[projectKey]
+      if (!ldApi) {
+        throw new Error(`Cannot find LD project ${projectKey}`)
+      }
+      return ldApi.getFeatureFlag(featureFlagKey)
+    },
+  }
+
+  return tasks
+}
+
 function initCypress(on, config) {
   if (
     process.env.LAUNCH_DARKLY_PROJECT_KEY &&
@@ -314,8 +352,39 @@ function initCypress(on, config) {
   return config
 }
 
+function initCypressMultipleProjects(projects, on, config) {
+  if (process.env.LAUNCH_DARKLY_AUTH_TOKEN) {
+    console.log(
+      'cypress-ld-control: initializing LD client for %d project(s)',
+      projects.length,
+    )
+    const options = {
+      authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
+    }
+    const ldApiTasks = initLaunchDarklyApiTasksMultipleProjects(
+      projects,
+      options,
+    )
+    if (!ldApiTasks) {
+      throw new Error('failed to init LaunchDarkly tasks')
+    }
+
+    // register all tasks with Cypress
+    on('task', ldApiTasks)
+
+    // set the flag in the Cypress.env object to let the specs know
+    config.env.haveLaunchDarklyApi = true
+  } else {
+    console.log('Skipping cypress-ld-control plugin')
+    config.env.haveLaunchDarklyApi = false
+  }
+
+  return config
+}
+
 module.exports = {
   initLaunchDarklyApiClient,
   initLaunchDarklyApiTasks,
   initCypress,
+  initCypressMultipleProjects,
 }
