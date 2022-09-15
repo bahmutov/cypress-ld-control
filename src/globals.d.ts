@@ -29,6 +29,10 @@ declare namespace Cypress {
     /**
      * Removes the custom user target for the given feature flag.
      */
-    removeUserTarget(featureFlagKey: string, userId: string): Chainable<void>
+    removeUserTarget(
+      featureFlagKey: string,
+      userId: string,
+      projectKey?: string,
+    ): Chainable<void>
   }
 }

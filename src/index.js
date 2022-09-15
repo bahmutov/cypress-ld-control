@@ -309,6 +309,23 @@ function initLaunchDarklyApiTasksMultipleProjects(projects, options) {
       }
       return ldApi.getFeatureFlag(featureFlagKey)
     },
+
+    'cypress-ld-control:removeUserTarget'({
+      projectKey,
+      featureFlagKey,
+      userId,
+    }) {
+      if (!projectKey) {
+        throw new Error(
+          `Missing LD project key when removing the user target from feature ${featureFlagKey}`,
+        )
+      }
+      const ldApi = ldApiClients[projectKey]
+      if (!ldApi) {
+        throw new Error(`Cannot find LD project ${projectKey}`)
+      }
+      return ldApi.removeUserTarget({ featureFlagKey, userId })
+    },
   }
 
   return tasks

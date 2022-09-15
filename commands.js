@@ -34,13 +34,16 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
     },
   )
 
-  Cypress.Commands.add('removeUserTarget', (featureFlagKey, userId) => {
-    return cy.task(
-      'cypress-ld-control:removeUserTarget',
-      { featureFlagKey, userId },
-      {
-        log: false,
-      },
-    )
-  })
+  Cypress.Commands.add(
+    'removeUserTarget',
+    (featureFlagKey, userId, projectKey) => {
+      return cy.task(
+        'cypress-ld-control:removeUserTarget',
+        { featureFlagKey, userId, projectKey },
+        {
+          log: false,
+        },
+      )
+    },
+  )
 }
