@@ -5,10 +5,11 @@ import '../../commands'
 
 describe('Cypress LaunchDarkly control', () => {
   if (Cypress.isLaunchDarklyControlInitialized()) {
+    const projectKey = 'demo-project'
     const featureFlagKey = 'testing-launch-darkly-control-from-cypress'
 
     it('fetches the feature flag', () => {
-      cy.getFeatureFlag(featureFlagKey)
+      cy.getFeatureFlag(featureFlagKey, projectKey).then(console.log)
     })
 
     it('sets the flag for a user')

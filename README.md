@@ -172,6 +172,39 @@ setupNodeEvents(on, config) {
 
 Reads the environment variables `LAUNCH_DARKLY_PROJECT_KEY` and `LAUNCH_DARKLY_AUTH_TOKEN` to initialize the LD client. You can pass the LD environment name via `LAUNCH_DARKLY_ENVIRONMENT`, otherwise it assumes the LD environment name is "test".
 
+### initCypressMultipleProjects
+
+Sometimes you might have several LaunchDarkly projects. You can control each one, and all you need is `LAUNCH_DARKLY_AUTH_TOKEN` environment variable.
+
+```js
+// cypress.config.js
+const { initCypressMultipleProjects } = require('cypress-ld-control')
+setupNodeEvents(on, config) {
+  // list all the LD projects you want to use
+  const projects = [
+    {
+      projectKey: 'demo-project',
+      environment: 'test',
+    },
+    {
+      projectKey: 'api-project',
+      environment: 'test',
+    },
+  ]
+
+  initCypressMultipleProjects(projects, on, config)
+
+  // IMPORTANT: return the updated config object
+  return config
+}
+```
+
+When calling the `cy` custom commands from [commands.js](./commands.js) pass the project key, for example
+
+```js
+cy.getFeatureFlag(featureFlagKey, projectKey)
+```
+
 ### Explicit registration (old)
 
 **Tip:** you might want to check if the environment variables `and` are set and only initialize the tasks in that case.

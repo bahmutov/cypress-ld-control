@@ -4,7 +4,18 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
       return Boolean(Cypress.env('haveLaunchDarklyApi'))
     }
 
-  Cypress.Commands.add('getFeatureFlag', (featureFlagKey) => {
+  Cypress.Commands.add('getFeatureFlag', (featureFlagKey, projectKey) => {
+    if (projectKey) {
+      // multiple LD projects
+      return cy.task(
+        'cypress-ld-control:getFeatureFlag',
+        { featureFlagKey, projectKey },
+        {
+          log: false,
+        },
+      )
+    }
+
     return cy.task('cypress-ld-control:getFeatureFlag', featureFlagKey, {
       log: false,
     })

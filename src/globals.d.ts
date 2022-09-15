@@ -15,7 +15,7 @@ declare namespace Cypress {
     /**
      * Returns information about the given feature flag
      */
-    getFeatureFlag(featureFlagKey: string): Chainable<any>
+    getFeatureFlag(featureFlagKey: string, projectKey?: string): Chainable<any>
 
     /**
      * Sets the feature flag value for the given user.
