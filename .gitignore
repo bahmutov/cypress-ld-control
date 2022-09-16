@@ -2,3 +2,4 @@ node_modules/
 .as-a.ini
 cypress/videos
 .DS_Store
+cypress/screenshots/

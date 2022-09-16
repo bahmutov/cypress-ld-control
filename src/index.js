@@ -385,10 +385,15 @@ function initCypress(on, config) {
 }
 
 function initCypressMultipleProjects(projects, on, config) {
+  if (!Array.isArray(projects)) {
+    throw new Error('Missing list of LD projects')
+  }
   if (process.env.LAUNCH_DARKLY_AUTH_TOKEN) {
+    const names = projects.map((p) => p.projectKey)
     console.log(
-      'cypress-ld-control: initializing LD client for %d project(s)',
+      'cypress-ld-control: initializing LD client for %d project(s): %s',
       projects.length,
+      names.join(', '),
     )
     const options = {
       authToken: process.env.LAUNCH_DARKLY_AUTH_TOKEN,
