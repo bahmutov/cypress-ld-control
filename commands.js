@@ -24,6 +24,9 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
   Cypress.Commands.add(
     'setFeatureFlagForUser',
     (featureFlagKey, userId, variationIndex, projectKey) => {
+      cy.log(
+        `cypress-ld-control: set feature **${projectKey}:${featureFlagKey}** to **${variationIndex}** for user ${userId}`,
+      )
       return cy.task(
         'cypress-ld-control:setFeatureFlagForUser',
         { featureFlagKey, userId, variationIndex, projectKey },
@@ -37,6 +40,10 @@ if (!Cypress.isLaunchDarklyControlInitialized) {
   Cypress.Commands.add(
     'removeUserTarget',
     (featureFlagKey, userId, projectKey) => {
+      cy.log(
+        `cypress-ld-control: remove user target **${projectKey}:${featureFlagKey}** for user ${userId}`,
+      )
+
       return cy.task(
         'cypress-ld-control:removeUserTarget',
         { featureFlagKey, userId, projectKey },
