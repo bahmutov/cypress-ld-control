@@ -205,6 +205,34 @@ When calling the `cy` custom commands from [commands.js](./commands.js) pass the
 cy.getFeatureFlag(featureFlagKey, projectKey)
 ```
 
+#### Project names
+
+Since some projects might have "default" as the project key, you can give them your own "name"
+
+```js
+// list all the LD projects you want to use
+const projects = [
+  {
+    name: 'web-flags',
+    projectKey: 'default',
+    environment: 'test',
+  },
+  {
+    projectKey: 'api-project',
+    environment: 'test',
+  },
+]
+
+initCypressMultipleProjects(projects, on, config)
+```
+
+In the situation above you can get the flag for first project using either of the two keys:
+
+```js
+cy.getFeatureFlag('my-flag', 'default')
+cy.getFeatureFlag('my-flag', 'web-flags')
+```
+
 ### Explicit registration (old)
 
 **Tip:** you might want to check if the environment variables `and` are set and only initialize the tasks in that case.

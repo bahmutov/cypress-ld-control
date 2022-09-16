@@ -295,6 +295,10 @@ function initLaunchDarklyApiTasksMultipleProjects(projects, options) {
     }
     const ldApi = initLaunchDarklyApiClient(projectOptions)
     ldApiClients[projectKey] = ldApi
+    if (project.name) {
+      debug('LD project %s with key %s', project.name, projectKey)
+      ldApiClients[project.name] = ldApi
+    }
   })
 
   const tasks = {
@@ -389,7 +393,7 @@ function initCypressMultipleProjects(projects, on, config) {
     throw new Error('Missing list of LD projects')
   }
   if (process.env.LAUNCH_DARKLY_AUTH_TOKEN) {
-    const names = projects.map((p) => p.projectKey)
+    const names = projects.map((p) => p.name || p.projectKey)
     console.log(
       'cypress-ld-control: initializing LD client for %d project(s): %s',
       projects.length,
