@@ -26,11 +26,12 @@ function initLaunchDarklyApiClient(options = {}) {
       env,
     },
     retry: {
-      // LaunchDarkly API has rate limits, thus we want to retry the requests
+      // LaunchDarkly API has rate limits (429) and also conflicts (409), thus we want to retry the requests
       // https://apidocs.launchdarkly.com/#section/Overview/Rate-limiting
+      // https://apidocs.launchdarkly.com/#section/Overview/Errors
       limit: 10,
       methods: ['GET', 'PATCH'],
-      statusCodes: [429],
+      statusCodes: [429, 409],
     },
   })
 
@@ -358,7 +359,7 @@ function initCypress(on, config) {
     // the name of your environment to use
     const environment =
       'LAUNCH_DARKLY_ENVIRONMENT' in process.env &&
-      process.env.LAUNCH_DARKLY_ENVIRONMENT
+        process.env.LAUNCH_DARKLY_ENVIRONMENT
         ? process.env.LAUNCH_DARKLY_ENVIRONMENT
         : 'test'
     console.log(
