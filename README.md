@@ -60,7 +60,7 @@ if (Cypress.isLaunchDarklyControlInitialized()) {
 ### getFeatureFlag
 
 ```js
-cy.getFeatureFlag(featureFlagKey).then(flag => ...)
+cy.getFeatureFlag(featureFlagKey, projectKey?).then(flag => ...)
 ```
 
 ### setFeatureFlagForUser
