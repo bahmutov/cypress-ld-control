@@ -18,10 +18,10 @@ on:
 jobs:
   badges:
     name: Badges
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update version badges 🏷
         run: npx -p dependency-version-badge update-badge cypress
