@@ -97,8 +97,9 @@ ldApi
             )
           differences.forEach((d) => {
             summary
-              .addHeading(`Differences for flag ${d.key} "${d.name}"`, 3)
-              .addRaw(d.description)
+              .addHeading(d.key, 3)
+              .addRaw(d.name, true)
+              .addRaw(d.description, true)
               .addCodeBlock(d.diff, 'diff')
               .addBreak()
           })
