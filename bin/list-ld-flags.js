@@ -87,18 +87,40 @@ ldApi
         })
 
         if (process.env.GITHUB_ACTIONS) {
-          ghCore.summary
-            .addHeading('LD Feature Flag Differences')
-            .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
-            .write()
-        }
+          console.log('writing GitHub Actions summary')
 
-        process.exit(1)
+          const summary = ghCore.summary
+            .addHeading('LD Feature Flag Differences')
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
+            .addBreak()
+            .addRaw(
+              `Found ${differences.length} LD feature flag difference(s)`,
+              true,
+            )
+          differences.forEach((d) => {
+            summary
+              .addHeading(d.key, 3)
+              .addRaw(d.name)
+              .addBreak()
+              .addRaw(d.description)
+              .addBreak()
+              .addCodeBlock(d.diff, 'diff')
+              .addBreak()
+          })
+          summary.write()
+        }
       } else {
         console.log('No LD feature flag differences')
         if (process.env.GITHUB_ACTIONS) {
           ghCore.summary
             .addHeading('LD Feature Flag Differences')
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
             .addRaw('No LD feature flag differences')
             .write()
         }
