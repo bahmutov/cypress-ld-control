@@ -152,6 +152,19 @@ await ldApi.setFeatureFlagForUser({
 
 See [demo/index.js](./demo/index.js)
 
+## CLI
+
+You can list all project's flags for specific environment
+
+```shell
+# needs LAUNCH_DARKLY_AUTH_TOKEN environment variable
+$ LAUNCH_DARKLY_AUTH_TOKEN=... npx list-all-flags --project demo-project --environment test
+# same as
+$ LAUNCH_DARKLY_AUTH_TOKEN=... LAUNCH_DARKLY_PROJECT_KEY=demo-project npx list-all-flags -e test
+```
+
+Only the most important properties of each feature flag for the given environment are listed.
+
 ## Use from Cypress
 
 Add the plugin to your Cypress plugins file by grabbing an object with tasks.

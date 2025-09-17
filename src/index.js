@@ -71,9 +71,13 @@ function initLaunchDarklyApiClient(options = {}) {
   }
 
   async function getFeatureFlags() {
-    const response = await ldRestApi.get()
+    const response = await ldRestApi.get({
+      searchParams: {
+        env,
+      },
+    })
     const json = JSON.parse(response.body)
-    console.dir(json, { depth: null })
+    // console.dir(json, { depth: null })
     return json
   }
 
@@ -359,7 +363,7 @@ function initCypress(on, config) {
     // the name of your environment to use
     const environment =
       'LAUNCH_DARKLY_ENVIRONMENT' in process.env &&
-        process.env.LAUNCH_DARKLY_ENVIRONMENT
+      process.env.LAUNCH_DARKLY_ENVIRONMENT
         ? process.env.LAUNCH_DARKLY_ENVIRONMENT
         : 'test'
     console.log(

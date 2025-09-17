@@ -11,6 +11,12 @@ jobs:
         # https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
 
+      - name: List all flags
+        run: node bin/list-all-flags.js --environment test
+        env:
+          LAUNCH_DARKLY_PROJECT_KEY: ${{ secrets.LAUNCH_DARKLY_PROJECT_KEY }}
+          LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
+
       - name: Semantic Release 🚀
         # https://github.com/cycjimmy/semantic-release-action
         uses: cycjimmy/semantic-release-action@v4

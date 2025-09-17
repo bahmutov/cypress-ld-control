@@ -5,9 +5,13 @@
   "private": false,
   "main": "src/index.js",
   "types": "src/index.d.ts",
+  "bin": {
+    "list-all-flags": "bin/list-all-flags.js"
+  },
   "files": [
     "src",
-    "commands.js"
+    "commands.js",
+    "bin"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,6 +29,7 @@
     "semantic-release": "^19.0.2"
   },
   "dependencies": {
+    "arg": "^5.0.2",
     "debug": "^4.3.3",
     "got": "^11.8.3"
   },
