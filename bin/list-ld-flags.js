@@ -69,7 +69,7 @@ ldApi
           console.log(`Flag ${flag.key} was removed`)
           return
         }
-        const str = diffString(previous, flags, { color: true })
+        const str = diffString(previous, flag, { color: true })
         if (str) {
           differences.push({
             key: flag.key,
