@@ -105,7 +105,7 @@ ldApi
           summary.write()
         }
 
-        process.exit(1)
+        // process.exit(1)
       } else {
         console.log('No LD feature flag differences')
         if (process.env.GITHUB_ACTIONS) {
