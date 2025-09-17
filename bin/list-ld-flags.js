@@ -88,6 +88,7 @@ ldApi
 
         if (process.env.GITHUB_ACTIONS) {
           ghCore.summary
+            .addHeading('LD Feature Flag Differences')
             .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
             .write()
         }
@@ -96,7 +97,10 @@ ldApi
       } else {
         console.log('No LD feature flag differences')
         if (process.env.GITHUB_ACTIONS) {
-          ghCore.summary.addRaw('No LD feature flag differences').write()
+          ghCore.summary
+            .addHeading('LD Feature Flag Differences')
+            .addRaw('No LD feature flag differences')
+            .write()
         }
       }
     } else {
