@@ -9,7 +9,17 @@ describe('Cypress LaunchDarkly control', () => {
     const featureFlagKey = 'testing-launch-darkly-control-from-cypress'
 
     it('fetches the feature flag', () => {
-      cy.getFeatureFlag(featureFlagKey, projectKey).then(console.log)
+      cy.getFeatureFlag(featureFlagKey, projectKey)
+        .then(console.log)
+        .should('include.keys', [
+          'key',
+          'name',
+          'description',
+          'kind',
+          'variations',
+          'defaults',
+          'environments',
+        ])
     })
 
     it('sets the flag for a user')
