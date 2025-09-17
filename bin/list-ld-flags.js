@@ -72,13 +72,17 @@ ldApi
         if (str) {
           differences.push({
             key: flag.key,
+            name: flag.name,
+            description: flag.description,
             diff: str,
           })
         }
       })
       if (differences.length) {
         differences.forEach((d) => {
-          console.log(`\nDifferences for flag ${d.key}:\n${d.diff}\n`)
+          console.log(
+            `\nDifferences for flag ${d.key} "${d.name}":\n${d.description}\n\n${d.diff}\n`,
+          )
         })
         process.exit(1)
       } else {

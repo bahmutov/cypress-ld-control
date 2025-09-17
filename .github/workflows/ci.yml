@@ -14,6 +14,12 @@ jobs:
           LAUNCH_DARKLY_PROJECT_KEY: ${{ secrets.LAUNCH_DARKLY_PROJECT_KEY }}
           LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
 
+      - name: LD flag differences
+        run: node bin/list-ld-flags.js --environment test --diff ld-flags.json
+        env:
+          LAUNCH_DARKLY_PROJECT_KEY: ${{ secrets.LAUNCH_DARKLY_PROJECT_KEY }}
+          LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
+
       - name: List all flags
         run: node bin/list-ld-flags.js --environment test
         env:
