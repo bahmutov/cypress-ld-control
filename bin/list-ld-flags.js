@@ -87,16 +87,20 @@ ldApi
         })
 
         if (process.env.GITHUB_ACTIONS) {
-          console.log('writing to GitHub Actions summary')
+          console.log('writing GitHub Actions summary')
 
-          let summary = ghCore.summary
+          const summary = ghCore.summary
             .addHeading('LD Feature Flag Differences')
-            .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
+            .addRaw(
+              `Found ${differences.length} LD feature flag difference(s)`,
+              true,
+            )
           differences.forEach((d) => {
             summary
               .addHeading(`Differences for flag ${d.key} "${d.name}"`)
               .addRaw(d.description)
               .addCodeBlock(d.diff, 'diff')
+              .addBreak()
           })
           summary.write()
         }
