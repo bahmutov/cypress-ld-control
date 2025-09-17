@@ -24,9 +24,9 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^10.7.0",
-    "prettier": "^2.5.1",
-    "semantic-release": "^19.0.2"
+    "cypress": "^15.2.0",
+    "prettier": "^3.6.2",
+    "semantic-release": "^24.2.8"
   },
   "dependencies": {
     "arg": "^5.0.2",
