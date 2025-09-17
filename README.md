@@ -165,6 +165,12 @@ $ LAUNCH_DARKLY_AUTH_TOKEN=... LAUNCH_DARKLY_PROJECT_KEY=demo-project npx list-l
 
 Only the most important properties of each feature flag for the given environment are listed.
 
+You can save the feature flags JSON in a file and then check if any flags have changed values
+
+```shell
+$ LAUNCH_DARKLY_AUTH_TOKEN=... LAUNCH_DARKLY_PROJECT_KEY=demo-project npx list-ld-flags -e test --diff <filename.json>
+```
+
 ## Use from Cypress
 
 Add the plugin to your Cypress plugins file by grabbing an object with tasks.
