@@ -1,4 +1,4 @@
-# cypress-ld-control ![cypress version](https://img.shields.io/badge/cypress-10.7.0-brightgreen) [![ci](https://github.com/bahmutov/cypress-ld-control/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bahmutov/cypress-ld-control/actions/workflows/ci.yml)
+# cypress-ld-control ![cypress version](https://img.shields.io/badge/cypress-15.2.0-brightgreen) [![ci](https://github.com/bahmutov/cypress-ld-control/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bahmutov/cypress-ld-control/actions/workflows/ci.yml)
 
 > Set LaunchDarkly feature flags from Cypress tests
 
