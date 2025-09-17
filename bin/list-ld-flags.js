@@ -86,12 +86,12 @@ ldApi
           )
         })
 
-        if (process.env.GITHUB_ACTIONS) {
-          ghCore.summary
-            .addHeading('LD Feature Flag Differences')
-            .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
-            .write()
-        }
+        // if (process.env.GITHUB_ACTIONS) {
+        ghCore.summary
+          .addHeading('LD Feature Flag Differences')
+          .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
+          .write()
+        // }
 
         process.exit(1)
       } else {
