@@ -69,6 +69,10 @@ ldApi
           console.log(`Flag ${flag.key} was removed`)
           return
         }
+        const areEqual = JSON.stringify(current) === JSON.stringify(flag)
+        if (areEqual) {
+          return
+        }
         const str = diffString(current, flag, { color: true })
         if (str) {
           differences.push({
