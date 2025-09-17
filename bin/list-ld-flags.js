@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const arg = require('arg')
+const ghCore = require('@actions/core')
 
 const args = arg({
   '--project': String,
@@ -84,9 +85,19 @@ ldApi
             `\nDifferences for flag ${d.key} "${d.name}":\n${d.description}\n\n${d.diff}\n`,
           )
         })
+
+        if (process.env.GITHUB_ACTIONS) {
+          ghCore.summary
+            .addRaw(`Found ${differences.length} LD feature flag difference(s)`)
+            .write()
+        }
+
         process.exit(1)
       } else {
-        console.log('No differences')
+        console.log('No LD feature flag differences')
+        if (process.env.GITHUB_ACTIONS) {
+          ghCore.summary.addRaw('No LD feature flag differences').write()
+        }
       }
     } else {
       const str = JSON.stringify(flags, null, 2)
