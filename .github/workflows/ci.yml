@@ -15,7 +15,7 @@ jobs:
           LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
 
       - name: List all flags
-        run: node bin/list-all-flags.js --environment test
+        run: node bin/list-ld-flags.js --environment test
         env:
           LAUNCH_DARKLY_PROJECT_KEY: ${{ secrets.LAUNCH_DARKLY_PROJECT_KEY }}
           LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
