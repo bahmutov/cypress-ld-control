@@ -91,6 +91,10 @@ ldApi
 
           const summary = ghCore.summary
             .addHeading('LD Feature Flag Differences')
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
             .addRaw(
               `Found ${differences.length} LD feature flag difference(s)`,
               true,
@@ -110,6 +114,10 @@ ldApi
         if (process.env.GITHUB_ACTIONS) {
           ghCore.summary
             .addHeading('LD Feature Flag Differences')
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
             .addRaw('No LD feature flag differences')
             .write()
         }
