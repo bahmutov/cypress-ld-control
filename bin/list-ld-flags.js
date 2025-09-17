@@ -97,15 +97,13 @@ ldApi
             )
           differences.forEach((d) => {
             summary
-              .addHeading(`Differences for flag ${d.key} "${d.name}"`)
+              .addHeading(`Differences for flag ${d.key} "${d.name}"`, 3)
               .addRaw(d.description)
               .addCodeBlock(d.diff, 'diff')
               .addBreak()
           })
           summary.write()
         }
-
-        // process.exit(1)
       } else {
         console.log('No LD feature flag differences')
         if (process.env.GITHUB_ACTIONS) {
