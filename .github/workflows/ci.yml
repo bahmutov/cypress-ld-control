@@ -14,6 +14,9 @@ jobs:
           LAUNCH_DARKLY_PROJECT_KEY: ${{ secrets.LAUNCH_DARKLY_PROJECT_KEY }}
           LAUNCH_DARKLY_AUTH_TOKEN: ${{ secrets.LAUNCH_DARKLY_AUTH_TOKEN }}
 
+      - name: Print GitHub variables
+        run: npx @bahmutov/print-env -e GITHUB
+
       - name: LD flag differences
         run: node bin/list-ld-flags.js --environment test --diff ld-flags.json || true
         env:
