@@ -1,0 +1,48 @@
+[
+  {
+    "key": "testing-launch-darkly-control-from-cypress",
+    "name": "Testing LaunchDarkly Control From Cypress",
+    "description": "Demo feature flag",
+    "kind": "multivariate",
+    "deprecated": false,
+    "archived": false,
+    "temporary": false,
+    "defaults": {
+      "offVariation": 1,
+      "onVariation": 0
+    },
+    "variations": [
+      {
+        "_id": "7d910381-5bf1-48c3-9ead-2d99799714ff",
+        "description": "Casual greeting",
+        "name": "Casual",
+        "value": "Hello"
+      },
+      {
+        "_id": "762b2ef1-6f38-48c2-92c9-1d73dc39d472",
+        "description": "Formal greeting",
+        "name": "Formal",
+        "value": "How do you do"
+      },
+      {
+        "_id": "bd529c6d-4287-4128-aaeb-d4dddc273b6b",
+        "description": "Vacation greeting",
+        "name": "Vacation",
+        "value": "Aloha"
+      }
+    ],
+    "environment": {
+      "prerequisites": 0,
+      "variations": {
+        "1": {
+          "contextTargets": 0,
+          "isFallthrough": true,
+          "isOff": true,
+          "nullRules": 0,
+          "rules": 0,
+          "targets": 0
+        }
+      }
+    }
+  }
+]
