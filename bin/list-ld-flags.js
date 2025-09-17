@@ -95,6 +95,7 @@ ldApi
               'bahmutov/cypress-ld-control',
               'https://github.com/bahmutov/cypress-ld-control',
             )
+            .addBreak()
             .addRaw(
               `Found ${differences.length} LD feature flag difference(s)`,
               true,
@@ -102,8 +103,10 @@ ldApi
           differences.forEach((d) => {
             summary
               .addHeading(d.key, 3)
-              .addRaw(d.name, true)
-              .addRaw(d.description, true)
+              .addRaw(d.name)
+              .addBreak()
+              .addRaw(d.description)
+              .addBreak()
               .addCodeBlock(d.diff, 'diff')
               .addBreak()
           })
