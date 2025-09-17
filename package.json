@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "bin": {
-    "list-all-flags": "bin/list-all-flags.js"
+    "list-ld-flags": "bin/list-ld-flags.js"
   },
   "files": [
     "src",

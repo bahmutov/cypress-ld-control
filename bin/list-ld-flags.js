@@ -51,7 +51,8 @@ ldApi
     }),
   )
   .then((flags) => {
-    console.dir(flags, { depth: null })
+    const str = JSON.stringify(flags, null, 2)
+    console.log(str)
   })
   .catch((err) => {
     console.error(err)
