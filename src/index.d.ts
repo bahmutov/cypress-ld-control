@@ -27,3 +27,12 @@ export function initCypressMultipleProjects(
   on: Cypress.PluginEvents,
   config: Cypress.PluginConfigOptions,
 ): Cypress.PluginConfigOptions
+
+export type FlagDifference = {
+  projectKey: string
+  environment: string
+  key: string
+  name: string
+  description: string
+  diff: string
+}
