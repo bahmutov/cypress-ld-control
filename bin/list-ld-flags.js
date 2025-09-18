@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // @ts-check
+
 const arg = require('arg')
 const ghCore = require('@actions/core')
 const debug = require('debug')('cypress-ld-control')
@@ -79,6 +80,14 @@ async function getLdFlagsForProject(projectKey, environment) {
 }
 
 /**
+ * @param {string} projectKey
+ * @param {string} environment
+ */
+function getSaveKey(projectKey, environment) {
+  return `${projectKey}//${environment}`
+}
+
+/**
  * @param {string[]} projectKeys
  * @param {string[]} environments
  */
@@ -89,7 +98,7 @@ async function collectFlags(projectKeys, environments) {
     const env = environments[i]
     const flags = await getLdFlagsForProject(projectKey, env)
 
-    const key = `${projectKey}//${env}`
+    const key = getSaveKey(projectKey, env)
     flagsByProject[key] = flags
     console.error(
       `Found ${flags.length} LaunchDarkly feature flags for project "${projectKey}" environment "${env}"`,
@@ -98,79 +107,128 @@ async function collectFlags(projectKeys, environments) {
   return flagsByProject
 }
 
+/**
+ * @param {string} projectKey
+ * @param {string} environment
+ * @param {Array<any>} oldFlags
+ * @param {Array<any>} newFlags
+ */
+function diffFlags(projectKey, environment, oldFlags, newFlags) {
+  const { diffString, diff } = require('json-diff')
+
+  // TODO: handle new flags
+  // compare keys one by one
+  /**
+   * @type {import('../src/index').FlagDifference[]}
+   */
+  const differences = []
+  oldFlags.forEach((flag) => {
+    const current = newFlags.find((f) => f.key === flag.key)
+    if (!current) {
+      console.log(`Flag ${flag.key} was removed`)
+      return
+    }
+    const areEqual = JSON.stringify(current) === JSON.stringify(flag)
+    if (areEqual) {
+      return
+    }
+    const str = diffString(current, flag, { color: true })
+    if (str) {
+      differences.push({
+        projectKey,
+        environment,
+        key: flag.key,
+        name: flag.name,
+        description: flag.description,
+        diff: str,
+      })
+    }
+  })
+  return differences
+}
+
 collectFlags(projectKeys, environments)
   .then((flagsByProject) => {
     if (args['--diff']) {
-      //         const { diffString } = require('json-diff')
-      //         const fs = require('fs')
-      //         const previous = JSON.parse(fs.readFileSync(args['--diff'], 'utf8'))
-      //         // TODO: handle new flags
-      //         // compare keys one by one
-      //         const differences = []
-      //         previous.forEach((flag) => {
-      //           const current = flags.find((f) => f.key === flag.key)
-      //           if (!current) {
-      //             console.log(`Flag ${flag.key} was removed`)
-      //             return
-      //           }
-      //           const areEqual = JSON.stringify(current) === JSON.stringify(flag)
-      //           if (areEqual) {
-      //             return
-      //           }
-      //           const str = diffString(current, flag, { color: true })
-      //           if (str) {
-      //             differences.push({
-      //               key: flag.key,
-      //               name: flag.name,
-      //               description: flag.description,
-      //               diff: str,
-      //             })
-      //           }
-      //         })
-      //         if (differences.length) {
-      //           differences.forEach((d) => {
-      //             console.log(
-      //               `\nDifferences for flag ${d.key} "${d.name}":\n${d.description}\n\n${d.diff}\n`,
-      //             )
-      //           })
-      //           if (process.env.GITHUB_ACTIONS) {
-      //             console.log('writing GitHub Actions summary')
-      //             const summary = ghCore.summary
-      //               .addHeading('LD Feature Flag Differences')
-      //               .addLink(
-      //                 'bahmutov/cypress-ld-control',
-      //                 'https://github.com/bahmutov/cypress-ld-control',
-      //               )
-      //               .addBreak()
-      //               .addRaw(
-      //                 `Found ${differences.length} LD feature flag difference(s)`,
-      //                 true,
-      //               )
-      //             differences.forEach((d) => {
-      //               summary
-      //                 .addHeading(d.key, 3)
-      //                 .addRaw(d.name)
-      //                 .addBreak()
-      //                 .addRaw(d.description)
-      //                 .addBreak()
-      //                 .addCodeBlock(d.diff, 'diff')
-      //                 .addBreak()
-      //             })
-      //             summary.write()
-      //           }
-      //         } else {
-      //           console.log('No LD feature flag differences')
-      //           if (process.env.GITHUB_ACTIONS) {
-      //             ghCore.summary
-      //               .addHeading('LD Feature Flag Differences')
-      //               .addLink(
-      //                 'bahmutov/cypress-ld-control',
-      //                 'https://github.com/bahmutov/cypress-ld-control',
-      //               )
-      //               .addRaw('No LD feature flag differences')
-      //               .write()
-      //           }
-      //         }
+      const fs = require('fs')
+      const loadedFlags = JSON.parse(fs.readFileSync(args['--diff'], 'utf8'))
+
+      /**
+       * @type {import('../src/index').FlagDifference[]}
+       */
+      const allDifferences = []
+      projectKeys.forEach((projectKey, i) => {
+        const env = environments[i]
+        const saveKey = getSaveKey(projectKey, env)
+        if (!loadedFlags[saveKey]) {
+          console.error(
+            `Could not find saved flags for project "${projectKey}" environment "${env}"`,
+          )
+          process.exit(1)
+        }
+
+        const previousFlags = loadedFlags[saveKey]
+        const currentFlags = flagsByProject[saveKey]
+        const differences = diffFlags(
+          projectKey,
+          env,
+          previousFlags,
+          currentFlags,
+        )
+        allDifferences.push(...differences)
+      })
+
+      if (allDifferences.length) {
+        allDifferences.forEach((d) => {
+          console.log(
+            `\nDifferences for flag ${d.key} "${d.name}":\n${d.description}\n\n${d.diff}\n`,
+          )
+        })
+        if (process.env.GITHUB_ACTIONS) {
+          console.log('writing GitHub Actions summary')
+          const summary = ghCore.summary
+            .addHeading('LD Feature Flag Differences')
+
+            .addRaw(
+              `Found ${allDifferences.length} LD feature flag difference(s)`,
+              true,
+            )
+          allDifferences.forEach((d) => {
+            summary
+              .addSeparator()
+              .addTable([
+                ['Project', d.projectKey],
+                ['Environment', d.environment],
+                ['Key', d.key],
+                ['Name', d.name],
+              ])
+              .addRaw(d.description)
+              .addBreak()
+              .addCodeBlock(d.diff, 'diff')
+              .addBreak()
+          })
+          summary
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
+            .addBreak()
+          summary.write()
+        }
+      } else {
+        console.log('No LD feature flag differences')
+        if (process.env.GITHUB_ACTIONS) {
+          ghCore.summary
+            .addHeading('LD Feature Flag Differences')
+            .addRaw('No LD feature flag differences')
+            .addBreak()
+            .addLink(
+              'bahmutov/cypress-ld-control',
+              'https://github.com/bahmutov/cypress-ld-control',
+            )
+            .write()
+        }
+      }
     } else {
       const str = JSON.stringify(flagsByProject, null, 2)
       console.log(str)
