@@ -2,7 +2,8 @@
 
 > Set LaunchDarkly feature flags from Cypress tests
 
-Read the blog post [Control LaunchDarkly From Cypress Tests](https://glebbahmutov.com/blog/cypress-and-launchdarkly/).
+- 📝 Read the blog post [Control LaunchDarkly From Cypress Tests](https://glebbahmutov.com/blog/cypress-and-launchdarkly/).
+- 📝 Read the blog post [Diff Feature Flags Before Running Tests](https://glebbahmutov.com/blog/diff-feature-flags-before-testing/).
 
 ## Install
 
