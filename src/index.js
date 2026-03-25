@@ -383,11 +383,11 @@ function initCypress(on, config) {
     // register all tasks with Cypress
     on('task', ldApiTasks)
 
-    // set the flag in the Cypress.env object to let the specs know
-    config.env.haveLaunchDarklyApi = true
+    // set the flag in the config.expose object to let the specs know
+    config.expose.haveLaunchDarklyApi = true
   } else {
     console.log('Skipping cypress-ld-control plugin')
-    config.env.haveLaunchDarklyApi = false
+    config.expose.haveLaunchDarklyApi = false
   }
 
   return config
@@ -418,11 +418,11 @@ function initCypressMultipleProjects(projects, on, config) {
     // register all tasks with Cypress
     on('task', ldApiTasks)
 
-    // set the flag in the Cypress.env object to let the specs know
-    config.env.haveLaunchDarklyApi = true
+    // set the flag in the config.expose object to let the specs know
+    config.expose.haveLaunchDarklyApi = true
   } else {
     console.log('Skipping cypress-ld-control plugin')
-    config.env.haveLaunchDarklyApi = false
+    config.expose.haveLaunchDarklyApi = false
   }
 
   return config
