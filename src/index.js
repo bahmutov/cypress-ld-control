@@ -21,6 +21,9 @@ function initLaunchDarklyApiClient(options = {}) {
     headers: {
       'content-type': 'application/json',
       authorization: authToken,
+      // pin the REST API version instead of using the access token's version
+      // https://launchdarkly.com/docs/guides/api/api-migration-guide
+      'ld-api-version': '20240415',
     },
     searchParams: {
       env,
@@ -71,14 +74,24 @@ function initLaunchDarklyApiClient(options = {}) {
   }
 
   async function getFeatureFlags() {
-    const response = await ldRestApi.get({
-      searchParams: {
-        env,
-      },
-    })
-    const json = JSON.parse(response.body)
-    // console.dir(json, { depth: null })
-    return json
+    // API version 20240415 returns the flags in pages
+    // (20 flags by default, at most 100 per page)
+    // thus we keep fetching until we have all of them
+    const items = []
+    let json
+    do {
+      const response = await ldRestApi.get({
+        searchParams: {
+          env,
+          limit: 100,
+          offset: items.length,
+        },
+      })
+      json = JSON.parse(response.body)
+      items.push(...json.items)
+    } while (json.items.length && items.length < json.totalCount)
+    // console.dir(items, { depth: null })
+    return { ...json, items }
   }
 
   async function removeTarget({ featureFlagKey, targetIndex }) {
